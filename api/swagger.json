@@ -69,6 +69,16 @@
               }
             }
           },
+          "400": {
+            "description": "Inálido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Erro inesperado",
             "content": {
@@ -152,6 +162,16 @@
               }
             }
           },
+          "400": {
+            "description": "Inálido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Erro inesperado",
             "content": {
@@ -184,6 +204,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ID"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Inálido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
                 }
               }
             }

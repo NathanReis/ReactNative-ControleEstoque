@@ -4,9 +4,9 @@ const Category = require('../models/category');
 async function create(request, response) {
   let category = new Category(request.body);
 
-  await CategoryBll.create(category);
+  let { valid, data } = await CategoryBll.create(category);
 
-  return response.status(201).json({ _id: category._id });
+  return response.status(valid ? 201 : 400).json(data);
 }
 
 async function getAll(_, response) {
@@ -22,18 +22,18 @@ async function getById(request, response) {
 async function remove(request, response) {
   let id = request.params.id;
 
-  await CategoryBll.remove(id);
+  let { valid, data } = await CategoryBll.remove(id);
 
-  return response.json({ _id: id });
+  return response.status(valid ? 200 : 400).json(data);
 }
 
 async function update(request, response) {
   let id = request.params.id;
   let category = new Category({ ...request.body, _id: id });
 
-  await CategoryBll.update(category);
+  let { valid, data } = await CategoryBll.update(category);
 
-  return response.json({ _id: id });
+  return response.status(valid ? 200 : 400).json(data);
 }
 
 module.exports = { create, getAll, getById, remove, update };
