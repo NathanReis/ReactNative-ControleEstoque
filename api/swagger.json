@@ -53,7 +53,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CategoryWithoutId"
+                "$ref": "#/components/schemas/UniqFieldsCategory"
               }
             }
           }
@@ -70,7 +70,7 @@
             }
           },
           "400": {
-            "description": "Inálido",
+            "description": "Inválido",
             "content": {
               "application/json": {
                 "schema": {
@@ -146,7 +146,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CategoryWithoutId"
+                "$ref": "#/components/schemas/UniqFieldsCategory"
               }
             }
           }
@@ -163,7 +163,7 @@
             }
           },
           "400": {
-            "description": "Inálido",
+            "description": "Inválido",
             "content": {
               "application/json": {
                 "schema": {
@@ -209,7 +209,228 @@
             }
           },
           "400": {
-            "description": "Inálido",
+            "description": "Inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": [
+          "Produto"
+        ],
+        "summary": "Lista de produtos",
+        "description": "Retorna todos produtos cadastrados ordenados pelo campo <strong>description</strong>.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductWithCategory"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Produto"
+        ],
+        "summary": "Cadastra um produto",
+        "description": "Recebe os dados de um produto e retorna o <strong>id</strong> que foi gerado.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UniqFieldsProduct"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ID"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": [
+          "Produto"
+        ],
+        "summary": "Dados de um produto",
+        "description": "Retorna um produto cadastrado com base no campo <strong>id</strong>.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductWithCategory"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Produto"
+        ],
+        "summary": "Atualiza um produto",
+        "description": "Recebe os dados de um produto e retorna o <strong>id</strong> que foi recebido.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UniqFieldsProduct"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ID"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Produto"
+        ],
+        "summary": "Apaga um produto",
+        "description": "Apaga um produto com base no <strong>id</strong> recebido e o retorna.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ID"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Inválido",
             "content": {
               "application/json": {
                 "schema": {
@@ -242,30 +463,76 @@
           }
         }
       },
-      "Category": {
+      "UniqFieldsCategory": {
         "type": "object",
         "properties": {
-          "_id": {
-            "type": "string"
-          },
           "description": {
             "type": "string"
           }
         }
       },
-      "CategoryWithoutId": {
-        "type": "object",
-        "properties": {
-          "description": {
-            "type": "string"
+      "Category": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ID"
+          },
+          {
+            "$ref": "#/components/schemas/UniqFieldsCategory"
           }
-        }
+        ]
       },
       "Errors": {
         "type": "array",
         "items": {
           "type": "string"
         }
+      },
+      "UniqFieldsProduct": {
+        "type": "object",
+        "properties": {
+          "_idCategory": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minAmount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Product": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ID"
+          },
+          {
+            "$ref": "#/components/schemas/UniqFieldsProduct"
+          }
+        ]
+      },
+      "ProductWithCategory": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Product"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "category": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        ]
       }
     }
   },

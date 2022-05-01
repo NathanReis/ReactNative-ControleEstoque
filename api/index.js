@@ -10,6 +10,7 @@ APP.use(cors(), express.json(), require('./src/middleware/trimValues'));
 
 APP.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('./swagger.json')));
 APP.use('/categories', require('./src/routes/categories'));
+APP.use('/products', require('./src/routes/products'));
 
 APP.use(require('./src/middleware/catchError'));
 
