@@ -6,7 +6,7 @@ const swaggerUi = require('swagger-ui-express');
 const APP = express();
 const PORT = process.env.PORT;
 
-APP.use(cors(), express.json());
+APP.use(cors(), express.json(), require('./src/middleware/trimValues'));
 
 APP.use('/api-docs', swaggerUi.serve, swaggerUi.setup(require('./swagger.json')));
 APP.use('/categories', require('./src/routes/categories'));
