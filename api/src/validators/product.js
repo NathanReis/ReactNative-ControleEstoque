@@ -74,7 +74,7 @@ async function validateDescription(id, description) {
 
   let existentByDescription = await Product.findOne({ description });
 
-  if (existentByDescription && existentByDescription._id !== id) {
+  if (existentByDescription && !existentByDescription._id.equals(id)) {
     errors.push('Descrição já existente');
   }
 
