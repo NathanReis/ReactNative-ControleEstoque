@@ -32,3 +32,14 @@ services:
       - ./api:/app
     working_dir: /app
     command: yarn nodemon
+  mobile:
+    build: ./mobile
+    container_name: ce_mobile
+    depends_on:
+      - api
+    ports:
+      - 19000:19000
+    volumes:
+      - ./mobile:/app
+    working_dir: /app
+    command: sh -c "yarn && yarn start"

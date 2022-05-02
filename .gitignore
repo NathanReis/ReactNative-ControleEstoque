@@ -1,9 +1,22 @@
-**/node_modules
-**/package-lock.json
+node_modules/
+package-lock.json
 
-**/.env*
-!**/.env*.example
+.env*
+!.env*.example
 
 docker/mongodb/data/*
+
+.expo/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+.DS_Store
 
 !.gitkeep

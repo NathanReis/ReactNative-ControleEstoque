@@ -1,0 +1,37 @@
+{
+  "name": "mobile",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
+  },
+  "dependencies": {
+    "@react-navigation/drawer": "6.4.*",
+    "@react-navigation/native": "6.0.*",
+    "axios": "0.27.*",
+    "babel-plugin-inline-dotenv": "1.7.*",
+    "expo": "44.0.*",
+    "expo-status-bar": "1.2.*",
+    "react": "17.0.*",
+    "react-dom": "17.0.*",
+    "react-native": "0.64.*",
+    "react-native-gesture-handler": "2.1.*",
+    "react-native-reanimated": "2.3.*",
+    "react-native-safe-area-context": "3.3.*",
+    "react-native-screens": "3.10.*",
+    "react-native-web": "0.17.*"
+  },
+  "devDependencies": {
+    "@babel/core": "7.12.*",
+    "@babel/preset-typescript": "7.16.*",
+    "@types/react": "17.0.*",
+    "@types/react-native": "0.64.*",
+    "typescript": "4.3.*"
+  },
+  "private": false,
+  "license": "MIT"
+}
