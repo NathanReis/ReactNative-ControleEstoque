@@ -1,5 +1,4 @@
 import { useIsFocused, useNavigation } from '@react-navigation/native';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
@@ -7,6 +6,7 @@ import SuccessButton from '../../components/button/success';
 import Loading from '../../components/loading';
 import SafeZoneScreen from '../../components/safeZoneScreen';
 import ICategoryDto from '../../dtos/ICategoryDto';
+import ResponseHelper from '../../helpers/Response';
 import API from '../../services/api';
 import global from '../../styles/global';
 import styles from './styles';
@@ -19,9 +19,17 @@ export default function Categories() {
   let navigation = useNavigation();
 
   async function fetchCategories() {
-    let response = await API.get<ICategoryDto[]>('/categories');
+    try {
+      let response = await API.get<ICategoryDto[]>('/categories');
 
-    setCategories(response.data);
+      setCategories(response.data);
+    } catch (error) {
+      setCategories([]);
+
+      let { title, message } = ResponseHelper.formatError(error);
+
+      Alert.alert(title, message);
+    }
   }
 
   function handleClickNew() {
@@ -32,24 +40,7 @@ export default function Categories() {
     async function load() {
       setIsLoading(true);
 
-      try {
-        await fetchCategories();
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          let errors = error.response?.data as string[];
-          let message: string;
-
-          if (error.response?.status === 400) {
-            message = `- ${errors.join(';\n- ')}.`;
-          } else {
-            message = `- ${errors[0]}.`;
-          }
-
-          Alert.alert('Oops!', message);
-        } else {
-          Alert.alert('Erro', 'Erro inesperado!!!');
-        }
-      }
+      await fetchCategories();
 
       setIsLoading(false);
     }
