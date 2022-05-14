@@ -10,6 +10,10 @@ export default {
     background: 'lightblue',
     text: 'black'
   },
+  input: {
+    background: 'lightgray',
+    border: 'black'
+  },
   success: {
     background: 'darkgreen',
     text: 'white'

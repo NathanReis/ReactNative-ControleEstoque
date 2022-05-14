@@ -3,6 +3,9 @@ export default {
     border: {
       radius: 8
     },
+    margin: {
+      vertical: 8
+    },
     padding: 8
   },
   cardListContainer: {
@@ -13,7 +16,28 @@ export default {
     padding: 16
   },
   font: {
-    pageTitle: 24,
+    inputContent: 24,
+    inputLabel: 16,
+    pageTitle: 32,
     textButton: 16
+  },
+  input: {
+    border: {
+      radius: 8,
+      width: 4
+    },
+    padding: 16,
+    width: '80%'
+  },
+  inputLabel: {
+    margin: {
+      bottom: 0
+    }
+  },
+  title: {
+    margin: {
+      bottom: 16,
+      top: 8
+    }
   }
 };
