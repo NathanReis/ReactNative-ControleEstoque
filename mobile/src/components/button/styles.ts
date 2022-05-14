@@ -7,6 +7,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
+    marginVertical: sizes.button.margin.vertical,
     padding: sizes.button.padding,
 
     borderRadius: sizes.button.border.radius,

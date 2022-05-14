@@ -1,4 +1,5 @@
-export default interface ICategoryDto {
-  _id: string;
+import IIdDto from './IIdDto';
+
+export default interface ICategoryDto extends IIdDto {
   description: string;
 }
