@@ -1,16 +1,18 @@
-import { Text, TextInput as TextInputRN, View } from 'react-native';
+import { KeyboardTypeOptions, Text, TextInput as TextInputRN, View } from 'react-native';
 import global from '../../styles/global';
 import styles from './styles';
 
-interface ITextInputProps {
+export interface ITextInputProps {
   editable?: boolean;
+  keyboardType?: KeyboardTypeOptions;
   label: string;
+  maxLength?: number;
   value: string;
   onChangeText?: (text: string) => void;
 }
 
 export default function TextInput(props: ITextInputProps) {
-  let { editable, label, value, onChangeText } = props;
+  let { editable, keyboardType, label, maxLength, value, onChangeText } = props;
 
   return (
     <View style={styles.container}>
@@ -19,7 +21,8 @@ export default function TextInput(props: ITextInputProps) {
       <TextInputRN
         style={styles.input}
         editable={editable}
-        keyboardType='default'
+        keyboardType={keyboardType}
+        maxLength={maxLength}
         value={value}
         onChangeText={onChangeText}
       />
