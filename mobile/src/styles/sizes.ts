@@ -8,16 +8,36 @@ export default {
     },
     padding: 8
   },
-  cardListContainer: {
-    margin: { top: 16 }
+  listContainer: {
+    margin: {
+      top: 16
+    },
+    width: '100%'
   },
-  card: {
-    margin: { vertical: 8 },
+  listItem: {
+    border: {
+      radius: 16
+    },
+    margin: {
+      vertical: 8
+    },
     padding: 16
+  },
+  listItemButton: {
+    border: {
+      radius: 8
+    },
+    icon: 16,
+    margin: {
+      horizontal: 8
+    },
+    padding: 8
   },
   font: {
     inputContent: 24,
     inputLabel: 16,
+    listItemMainContent: 16,
+    listItemSecondaryContent: 16,
     pageTitle: 32,
     textButton: 16
   },
@@ -27,7 +47,7 @@ export default {
       width: 4
     },
     padding: 16,
-    width: '80%'
+    width: '90%'
   },
   inputLabel: {
     margin: {
