@@ -1,4 +1,5 @@
 const Category = require('../models/category');
+const Product = require('../models/product');
 const CategoryValidator = require('../validators/category');
 
 async function create(category) {
@@ -28,6 +29,7 @@ async function remove(id) {
     return { valid: false, data: errors };
   }
 
+  await Product.deleteMany({ _idCategory: id });
   await Category.findByIdAndRemove(id);
 
   return { valid: true, data: { _id: id } };
