@@ -8,12 +8,12 @@ export default function DrawerNavigator() {
   return (
     <drawer.Navigator>
       <drawer.Screen
-        name="Category"
+        name='Category'
         component={Category}
         options={{ title: 'Categoria' }}
       />
       <drawer.Screen
-        name="Categories"
+        name='Categories'
         component={Categories}
         options={{ title: 'Categorias' }}
       />

@@ -1,6 +1,7 @@
 import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { Alert, View } from 'react-native';
+import DangerButton from '../../components/button/danger';
 import SuccessButton from '../../components/button/success';
 import WarningButton from '../../components/button/warning';
 import Loading from '../../components/loading';
@@ -26,9 +27,15 @@ export default function Category() {
   let navigation = useNavigation();
   let route = useRoute();
 
+  function clear() {
+    setId('');
+    setDescription('');
+    setIsCreate(true);
+  }
+
   async function fetchCategory(id: string) {
     try {
-      let response = await API.get<ICategoryDto>('/categories');
+      let response = await API.get<ICategoryDto>(`/categories/${id}`);
 
       setId(id);
       setDescription(response.data.description);
@@ -59,6 +66,17 @@ export default function Category() {
     }
   }
 
+  async function handleRemove() {
+    Alert.alert(
+      'Confirme',
+      'Desajea realmente excluir esta categoria? Caso confirme, todos produtos serão excluídos!',
+      [
+        { text: 'Sim', onPress: async () => await remove() },
+        { text: 'Não' }
+      ]
+    );
+  }
+
   async function handleUpdate() {
     let category = { description: _description };
 
@@ -66,6 +84,22 @@ export default function Category() {
       await API.put<IIdDto>(`/categories/${_id}`, category);
 
       Alert.alert('Salvo', 'Atualizado com sucesso');
+
+      navigation.navigate('Categories' as never);
+    } catch (error) {
+      let { title, message } = ResponseHelper.formatError(error);
+
+      Alert.alert(title, message);
+    }
+  }
+
+  async function remove() {
+    try {
+      await API.delete<IIdDto>(`/categories/${_id}`);
+
+      Alert.alert('Excluído', 'Excluído com sucesso');
+
+      navigation.navigate('Categories' as never);
     } catch (error) {
       let { title, message } = ResponseHelper.formatError(error);
 
@@ -92,7 +126,10 @@ export default function Category() {
       setIsLoading(false);
     }
 
-    load();
+    if (isFocused) {
+      clear();
+      load();
+    }
   }, [isFocused]);
 
   if (isLoading) {
@@ -104,8 +141,6 @@ export default function Category() {
       <View>
         <Title content={`${isCreate ? 'Nova ' : ''}Categoria`} />
 
-        {!isCreate && <TextInput editable={false} label='ID' value={_id} />}
-
         <TextInput
           label='Descrição'
           value={_description}
@@ -115,7 +150,10 @@ export default function Category() {
         {
           isCreate
             ? <SuccessButton title='Cadastrar' onPress={handleCreate} />
-            : <WarningButton title='Atualizar' onPress={handleUpdate} />
+            : <>
+              <WarningButton title='Atualizar' onPress={handleUpdate} />
+              <DangerButton title='Excluir' onPress={handleRemove} />
+            </>
         }
 
       </View>
