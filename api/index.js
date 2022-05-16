@@ -2,9 +2,10 @@ const cors = require('cors');
 const express = require('express');
 require('express-async-errors');
 const swaggerUi = require('swagger-ui-express');
+const environment = require('./src/config/environment');
 
 const APP = express();
-const PORT = process.env.PORT;
+const PORT = environment.PORT;
 
 APP.use(cors(), express.json(), require('./src/middleware/trimValues'));
 
