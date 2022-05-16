@@ -19,6 +19,10 @@ async function getById(request, response) {
   return response.json(await ProductBll.getById(id));
 }
 
+async function getProductsRunningOut(_, response) {
+  return response.json(await ProductBll.getProductsRunningOut());
+}
+
 async function remove(request, response) {
   let id = request.params.id;
 
@@ -36,4 +40,4 @@ async function update(request, response) {
   return response.status(valid ? 200 : 400).json(data);
 }
 
-module.exports = { create, getAll, getById, remove, update };
+module.exports = { create, getAll, getById, getProductsRunningOut, remove, update };

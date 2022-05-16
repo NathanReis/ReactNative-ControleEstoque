@@ -4,6 +4,7 @@ const ProductsController = require('../controllers/products');
 const ROUTER = express.Router();
 
 ROUTER.get('', ProductsController.getAll);
+ROUTER.get('/running-out', ProductsController.getProductsRunningOut);
 ROUTER.get('/:id', ProductsController.getById);
 
 ROUTER.post('', ProductsController.create);

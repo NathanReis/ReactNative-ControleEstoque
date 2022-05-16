@@ -313,6 +313,40 @@
         }
       }
     },
+    "/products/running-out": {
+      "get": {
+        "tags": [
+          "Produto"
+        ],
+        "summary": "Lista de produtos que estão acabando",
+        "description": "Retorna todos produtos cadastrados ordenados pelo campo <strong>amount</strong> e que estejam com quantidade menor ou igual ao mínimo.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductWithCategory"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro inesperado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/products/{id}": {
       "get": {
         "tags": [

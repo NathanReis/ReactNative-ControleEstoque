@@ -3,6 +3,7 @@ import Categories from '../screens/categories';
 import Category from '../screens/category';
 import Product from '../screens/product';
 import Products from '../screens/products';
+import ProductsRunningOut from '../screens/productsRunningOut';
 
 let drawer = createDrawerNavigator();
 
@@ -28,6 +29,11 @@ export default function DrawerNavigator() {
         name='Products'
         component={Products}
         options={{ title: 'Produtos' }}
+      />
+      <drawer.Screen
+        name='ProductsRunningOut'
+        component={ProductsRunningOut}
+        options={{ title: 'Produtos acabando' }}
       />
     </drawer.Navigator>
   );

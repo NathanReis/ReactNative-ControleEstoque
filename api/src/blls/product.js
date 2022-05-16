@@ -31,6 +31,17 @@ async function getById(id) {
   return await appendCategoryOnProduct(product);
 }
 
+async function getProductsRunningOut() {
+  let products = await Product.$where('this.amount <= this.minAmount').sort({ amount: 'asc' });
+  let productsWithCategory = [];
+
+  for (let product of products) {
+    productsWithCategory.push(await appendCategoryOnProduct(product));
+  }
+
+  return productsWithCategory;
+}
+
 async function remove(id) {
   let errors = await ProductValidator.validateRemove(id);
 
@@ -55,7 +66,7 @@ async function update(product) {
   return { valid: true, data: { _id: product._id } };
 }
 
-module.exports = { create, getAll, getById, remove, update };
+module.exports = { create, getAll, getById, getProductsRunningOut, remove, update };
 
 async function appendCategoryOnProduct(product) {
   let category = await Category.findById(product._idCategory);
