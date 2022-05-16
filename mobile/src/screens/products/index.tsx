@@ -13,13 +13,21 @@ import ResponseHelper from '../../helpers/Response';
 import API from '../../services/api';
 import styles from './styles';
 
+enum FilterOptionsEnum {
+  ACTIVE = 'active',
+  ALL = 'all',
+  INACTIVE = 'inactive'
+}
+
 enum SortOptionsEnum {
   AMOUNT = 'amount',
   DESCRIPTION = 'description'
 }
 
 export default function Products() {
+  let [_filteredProducts, setFilteredProducts] = useState<IProductWithCategoryDto[]>([]);
   let [_products, setProducts] = useState<IProductWithCategoryDto[]>([]);
+  let [filterOption, setFilterOption] = useState<FilterOptionsEnum>(FilterOptionsEnum.ALL);
   let [sortOption, setSortOption] = useState<SortOptionsEnum>(SortOptionsEnum.DESCRIPTION);
   let [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -30,16 +38,37 @@ export default function Products() {
     try {
       let response = await API.get<IProductWithCategoryDto[]>('/products');
 
-      switch (sortOption as SortOptionsEnum) {
-        case SortOptionsEnum.AMOUNT:
-          sortByAmount(response.data);
+      let filteredProducts: IProductWithCategoryDto[];
+
+      switch (filterOption as FilterOptionsEnum) {
+        case FilterOptionsEnum.ACTIVE:
+          filteredProducts = filterByActive(response.data);
+          break;
+
+        case FilterOptionsEnum.ALL:
+          filteredProducts = filterByAll(response.data);
           break;
 
         default:
-          sortByDescription(response.data);
+          filteredProducts = filterByInactive(response.data);
       }
+
+      let filteredSortedProducts: IProductWithCategoryDto[];
+
+      switch (sortOption as SortOptionsEnum) {
+        case SortOptionsEnum.AMOUNT:
+          filteredSortedProducts = sortByAmount(filteredProducts);
+          break;
+
+        default:
+          filteredSortedProducts = sortByDescription(filteredProducts);
+      }
+
+      setProducts(response.data);
+      setFilteredProducts(filteredSortedProducts);
     } catch (error) {
       setProducts([]);
+      setFilteredProducts([]);
 
       let { title, message } = ResponseHelper.formatError(error);
 
@@ -47,17 +76,65 @@ export default function Products() {
     }
   }
 
-  function handleChangeSortOption(option: string) {
-    setSortOption(option as SortOptionsEnum);
+  function filterByActive(products: IProductWithCategoryDto[]) {
+    return products.filter(product => product.active);
+  }
 
-    switch (option as SortOptionsEnum) {
-      case SortOptionsEnum.AMOUNT:
-        sortByAmount();
+  function filterByAll(products: IProductWithCategoryDto[]) {
+    return products;
+  }
+
+  function filterByInactive(products: IProductWithCategoryDto[]) {
+    return products.filter(product => !product.active);
+  }
+
+  function handleChangeFilterOption(option: string) {
+    setFilterOption(option as FilterOptionsEnum);
+
+    let filteredProducts: IProductWithCategoryDto[];
+
+    switch (option as FilterOptionsEnum) {
+      case FilterOptionsEnum.ACTIVE:
+        filteredProducts = filterByActive(_products);
+        break;
+
+      case FilterOptionsEnum.ALL:
+        filteredProducts = filterByAll(_products);
         break;
 
       default:
-        sortByDescription();
+        filteredProducts = filterByInactive(_products);
     }
+
+    let filteredSortedProducts: IProductWithCategoryDto[];
+
+    switch (sortOption as SortOptionsEnum) {
+      case SortOptionsEnum.AMOUNT:
+        filteredSortedProducts = sortByAmount(filteredProducts);
+        break;
+
+      default:
+        filteredSortedProducts = sortByDescription(filteredProducts);
+    }
+
+    setFilteredProducts(filteredSortedProducts);
+  }
+
+  function handleChangeSortOption(option: string) {
+    setSortOption(option as SortOptionsEnum);
+
+    let filteredSortedProducts: IProductWithCategoryDto[];
+
+    switch (option as SortOptionsEnum) {
+      case SortOptionsEnum.AMOUNT:
+        filteredSortedProducts = sortByAmount(_filteredProducts);
+        break;
+
+      default:
+        filteredSortedProducts = sortByDescription(_filteredProducts);
+    }
+
+    setFilteredProducts(filteredSortedProducts);
   }
 
   function handleClickNew() {
@@ -79,16 +156,12 @@ export default function Products() {
     );
   }
 
-  function sortByAmount(products?: IProductWithCategoryDto[]) {
-    setProducts(
-      (products ?? _products).sort((a, b) => a.amount - b.amount)
-    );
+  function sortByAmount(filteredProducts: IProductWithCategoryDto[]) {
+    return filteredProducts.sort((a, b) => a.amount - b.amount);
   }
 
-  function sortByDescription(products?: IProductWithCategoryDto[]) {
-    setProducts(
-      (products ?? _products).sort((a, b) => a.description.localeCompare(b.description))
-    );
+  function sortByDescription(filteredProducts: IProductWithCategoryDto[]) {
+    return filteredProducts.sort((a, b) => a.description.localeCompare(b.description));
   }
 
   async function remove(id: string) {
@@ -127,7 +200,7 @@ export default function Products() {
 
       <SelectInput
         hasDefaultOption={false}
-        label='Ordenar por'
+        label='Ordenar por:'
         options={[
           { label: 'Descrição', value: SortOptionsEnum.DESCRIPTION },
           { label: 'Quantidade', value: SortOptionsEnum.AMOUNT }
@@ -136,15 +209,31 @@ export default function Products() {
         onValueChange={handleChangeSortOption}
       />
 
+      <SelectInput
+        hasDefaultOption={false}
+        label='Filtrar por:'
+        options={[
+          { label: 'Ativo', value: FilterOptionsEnum.ACTIVE },
+          { label: 'Inativo', value: FilterOptionsEnum.INACTIVE },
+          { label: 'Todos', value: FilterOptionsEnum.ALL }
+        ]}
+        selectedValue={filterOption}
+        onValueChange={handleChangeFilterOption}
+      />
+
       <View style={styles.listContainer}>
         <FlatList
-          data={_products}
+          data={_filteredProducts}
           keyExtractor={item => item._id}
           renderItem={({ item }) => (
             <ListItem
               key={item._id}
               mainContent={item.description}
-              secondaryContents={[item.category.description]}
+              secondaryContents={[
+                item.category.description,
+                `Quantidade: ${item.amount}`,
+                `Ativo: ${item.active ? 'Sim' : 'Não'}`
+              ]}
               handleEdit={() => handleClickToEdit(item._id)}
               handleRemove={() => handleClickToRemove(item._id)}
             />

@@ -3,9 +3,9 @@ import sizes from '../../styles/sizes';
 
 export default StyleSheet.create({
   listContainer: {
-    height: '80%',
+    height: '55%',
     width: sizes.listContainer.width,
 
-    marginTop: sizes.listContainer.margin.top
+    marginTop: sizes.listContainer.margin.top,
   }
 });

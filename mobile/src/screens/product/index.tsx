@@ -99,10 +99,10 @@ export default function Product() {
   async function handleCreate() {
     let product = {
       _idCategory,
+      active: _active,
       amount: _amount,
       description: _description,
-      minAmount: _minAmount,
-      active: _active
+      minAmount: _minAmount
     };
 
     try {
@@ -133,10 +133,10 @@ export default function Product() {
   async function handleUpdate() {
     let product = {
       _idCategory,
+      active: _active,
       amount: _amount,
       description: _description,
-      minAmount: _minAmount,
-      active: _active
+      minAmount: _minAmount
     };
 
     try {
