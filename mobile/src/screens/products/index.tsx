@@ -6,14 +6,21 @@ import SuccessButton from '../../components/button/success';
 import ListItem from '../../components/listItem';
 import Loading from '../../components/loading';
 import SafeZoneScreen from '../../components/safeZoneScreen';
+import SelectInput from '../../components/selectInput';
 import IIdDto from '../../dtos/IIdDto';
 import IProductWithCategoryDto from '../../dtos/IProductWithCategoryDto';
 import ResponseHelper from '../../helpers/Response';
 import API from '../../services/api';
 import styles from './styles';
 
+enum SortOptionsEnum {
+  AMOUNT = 'amount',
+  DESCRIPTION = 'description'
+}
+
 export default function Products() {
-  let [products, setProducts] = useState<IProductWithCategoryDto[]>([]);
+  let [_products, setProducts] = useState<IProductWithCategoryDto[]>([]);
+  let [sortOption, setSortOption] = useState<SortOptionsEnum>(SortOptionsEnum.DESCRIPTION);
   let [isLoading, setIsLoading] = useState<boolean>(true);
 
   let isFocused = useIsFocused();
@@ -23,13 +30,33 @@ export default function Products() {
     try {
       let response = await API.get<IProductWithCategoryDto[]>('/products');
 
-      setProducts(response.data);
+      switch (sortOption as SortOptionsEnum) {
+        case SortOptionsEnum.AMOUNT:
+          sortByAmount(response.data);
+          break;
+
+        default:
+          sortByDescription(response.data);
+      }
     } catch (error) {
       setProducts([]);
 
       let { title, message } = ResponseHelper.formatError(error);
 
       Alert.alert(title, message);
+    }
+  }
+
+  function handleChangeSortOption(option: string) {
+    setSortOption(option as SortOptionsEnum);
+
+    switch (option as SortOptionsEnum) {
+      case SortOptionsEnum.AMOUNT:
+        sortByAmount();
+        break;
+
+      default:
+        sortByDescription();
     }
   }
 
@@ -49,6 +76,18 @@ export default function Products() {
         { text: 'Sim', onPress: async () => await remove(id) },
         { text: 'Não' }
       ]
+    );
+  }
+
+  function sortByAmount(products?: IProductWithCategoryDto[]) {
+    setProducts(
+      (products ?? _products).sort((a, b) => a.amount - b.amount)
+    );
+  }
+
+  function sortByDescription(products?: IProductWithCategoryDto[]) {
+    setProducts(
+      (products ?? _products).sort((a, b) => a.description.localeCompare(b.description))
     );
   }
 
@@ -86,12 +125,24 @@ export default function Products() {
     <SafeZoneScreen isWithoutScroll={true}>
       <SuccessButton title='Novo produto' onPress={handleClickNew} />
 
+      <SelectInput
+        hasDefaultOption={false}
+        label='Ordenar por'
+        options={[
+          { label: 'Descrição', value: SortOptionsEnum.DESCRIPTION },
+          { label: 'Quantidade', value: SortOptionsEnum.AMOUNT }
+        ]}
+        selectedValue={sortOption}
+        onValueChange={handleChangeSortOption}
+      />
+
       <View style={styles.listContainer}>
         <FlatList
-          data={products}
+          data={_products}
           keyExtractor={item => item._id}
           renderItem={({ item }) => (
             <ListItem
+              key={item._id}
               mainContent={item.description}
               secondaryContents={[item.category.description]}
               handleEdit={() => handleClickToEdit(item._id)}

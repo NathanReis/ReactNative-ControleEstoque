@@ -18,18 +18,25 @@ export default class ResponseHelper {
   }
 
   static formatAxiosError(error: AxiosError<unknown, any>): IFormattedResponseError {
-    let errors = error.response?.data as string[];
-    let message: string;
+    try {
+      let errors = error.response?.data as string[];
+      let message: string;
 
-    if (error.response?.status === 400) {
-      message = `- ${errors.join(';\n- ')}.`;
-    } else {
-      message = `- ${errors[0]}.`;
+      if (error.response?.status === 400) {
+        message = `- ${errors.join(';\n- ')}.`;
+      } else {
+        message = `- ${errors[0]}.`;
+      }
+
+      return {
+        title: 'Oops!',
+        message
+      };
+    } catch {
+      return {
+        title: 'Erro',
+        message: 'Erro inesperado!!!'
+      };
     }
-
-    return {
-      title: 'Oops!',
-      message
-    };
   }
 }

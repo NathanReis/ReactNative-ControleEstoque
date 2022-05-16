@@ -20,7 +20,7 @@ export default function ListItem(props: IListItemProps) {
       <View>
         <Text style={[global.bold, styles.mainContent]}>{mainContent}</Text>
 
-        {secondaryContents?.map(content => <Text style={styles.secondaryContent}>{content}</Text>)}
+        {secondaryContents?.map((content, index) => <Text key={index} style={styles.secondaryContent}>{content}</Text>)}
       </View>
       <View style={styles.actionsContainer}>
         {

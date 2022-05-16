@@ -4,6 +4,7 @@ import global from '../../styles/global';
 import styles from './styles';
 
 interface ISelectInputProps {
+  hasDefaultOption?: boolean;
   label: string;
   options: ISelectOptionsProps[];
   selectedValue: string;
@@ -16,7 +17,7 @@ interface ISelectOptionsProps {
 }
 
 export default function SelectInput(props: ISelectInputProps) {
-  let { label, options, selectedValue, onValueChange } = props;
+  let { hasDefaultOption, label, options, selectedValue, onValueChange } = props;
 
   return (
     <View style={styles.container}>
@@ -28,11 +29,17 @@ export default function SelectInput(props: ISelectInputProps) {
           selectedValue={selectedValue}
           onValueChange={onValueChange}
         >
-          <Picker.Item
-            style={styles.option}
-            label='Escolha uma...'
-            value=''
-          />
+          {
+            (hasDefaultOption === undefined || hasDefaultOption)
+            && (
+              <Picker.Item
+                key={-1}
+                style={styles.option}
+                label='Escolha uma...'
+                value=''
+              />
+            )
+          }
           {
             options.map((option, index) => (
               <Picker.Item
