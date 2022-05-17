@@ -80,7 +80,9 @@ export default function Home() {
       setIsLoading(false);
     }
 
-    load();
+    if (isFocused) {
+      load();
+    }
   }, [isFocused]);
 
   if (isLoading) {

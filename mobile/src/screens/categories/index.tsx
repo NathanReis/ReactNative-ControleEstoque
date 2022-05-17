@@ -75,7 +75,9 @@ export default function Categories() {
       setIsLoading(false);
     }
 
-    load();
+    if (isFocused) {
+      load();
+    }
   }, [isFocused]);
 
   if (isLoading) {

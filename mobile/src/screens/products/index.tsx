@@ -187,7 +187,9 @@ export default function Products() {
       setIsLoading(false);
     }
 
-    load();
+    if (isFocused) {
+      load();
+    }
   }, [isFocused]);
 
   if (isLoading) {

@@ -75,7 +75,9 @@ export default function ProductsRunningOut() {
       setIsLoading(false);
     }
 
-    load();
+    if (isFocused) {
+      load();
+    }
   }, [isFocused]);
 
   if (isLoading) {
