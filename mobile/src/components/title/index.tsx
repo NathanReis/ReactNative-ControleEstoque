@@ -1,4 +1,5 @@
 import { Text } from 'react-native';
+import global from '../../styles/global';
 import styles from './styles';
 
 interface ITitleProps {
@@ -8,5 +9,5 @@ interface ITitleProps {
 export default function Title(props: ITitleProps) {
   let { content } = props;
 
-  return <Text style={styles.content}>{content}</Text>;
+  return <Text style={[global.bold, styles.content]}>{content}</Text>;
 }

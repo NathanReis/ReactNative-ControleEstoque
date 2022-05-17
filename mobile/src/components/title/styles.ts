@@ -8,6 +8,7 @@ export default StyleSheet.create({
     marginBottom: sizes.title.margin.bottom,
     marginTop: sizes.title.margin.top,
 
-    fontSize: sizes.font.pageTitle
+    fontSize: sizes.font.pageTitle,
+    textAlign: 'center'
   }
 });

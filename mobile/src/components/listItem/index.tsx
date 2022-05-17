@@ -18,7 +18,7 @@ export default function ListItem(props: IListItemProps) {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={[global.bold, styles.mainContent]}>{mainContent}</Text>
+        <Text key={-1} style={[global.bold, styles.mainContent]}>{mainContent}</Text>
 
         {secondaryContents?.map((content, index) => <Text key={index} style={styles.secondaryContent}>{content}</Text>)}
       </View>

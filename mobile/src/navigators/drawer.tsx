@@ -1,6 +1,7 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Categories from '../screens/categories';
 import Category from '../screens/category';
+import Home from '../screens/home';
 import Product from '../screens/product';
 import Products from '../screens/products';
 import ProductsRunningOut from '../screens/productsRunningOut';
@@ -10,6 +11,11 @@ let drawer = createDrawerNavigator();
 export default function DrawerNavigator() {
   return (
     <drawer.Navigator>
+      <drawer.Screen
+        name='Home'
+        component={Home}
+        options={{ title: 'Home' }}
+      />
       <drawer.Screen
         name='Category'
         component={Category}
