@@ -31,7 +31,7 @@ services:
     volumes:
       - ./api:/app
     working_dir: /app
-    command: yarn nodemon
+    command: sh -c "yarn && yarn nodemon"
   mobile:
     build: ./mobile
     container_name: ce_mobile

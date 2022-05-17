@@ -60,7 +60,7 @@ npm i
 npx nodemon
 ```
 
-- Executar o app (necessário estar na pasta `mobile`)
+- Executar o APP (necessário estar na pasta `mobile`)
 ```bash
 npm i
 npm run start
